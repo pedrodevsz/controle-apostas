@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Bet {
+  id          String   @id @default(uuid())
+  odd         Float
+  entryValue  Float
+  date        DateTime
+  result      String
+  resultValue Float
+  createdAt   DateTime @default(now())
+}
