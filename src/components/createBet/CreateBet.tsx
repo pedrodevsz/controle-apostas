@@ -5,7 +5,6 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { createBetSchema, CreateBetFormData } from "./schema"
 import { useBetStore } from "@/store/useBetStore"
-import axios from "axios"
 
 export function CreateBet() {
     const addBet = useBetStore((state) => state.addBet)
@@ -33,9 +32,9 @@ export function CreateBet() {
         const oddNum = parseFloat(odd || "0")
         const entryNum = parseFloat(entryValue || "0")
 
-        if (result === "Loss") {
-            setValue("resultValue", "0")
-        } else if (!isNaN(oddNum) && !isNaN(entryNum)) {
+        if (result === "Loss" && !isNaN(entryNum)) {
+            setValue("resultValue", String((-entryNum).toFixed(2)))
+        } else if (result === "Gain" && !isNaN(oddNum) && !isNaN(entryNum)) {
             setValue("resultValue", String((oddNum * entryNum).toFixed(2)))
         } else {
             setValue("resultValue", "0")
